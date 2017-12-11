@@ -1,0 +1,88 @@
+\documentclass[19pt,a4paper]{article}
+\usepackage{xeCJK}
+\usepackage{amsmath}
+\setmainfont{STSong}
+\usepackage{geometry}
+\geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+\setlength{\parindent}{4em}
+\usepackage{graphicx}
+\usepackage{float}
+\title{算法作业10}
+\author{孟妍廷2015202009}
+\date{2017年12月3日}
+
+\begin{document}
+\maketitle
+24.1-3\\
+\indent 分析：边的条数的最大值m不是事先知道的，我们需要修改BELLMAN-FORD算法，使其在计算过程中当没有边可以被松弛时停止循环
+，算法如下:\\
+\indent $BELLMAN-FORD(G,w,s)\\
+\indent\quad INITIALIZE-SINGLE-SOURCE(G,s)\\
+\indent\quad flag=true\\
+\indent\quad count=0\\
+\indent\quad while\ flag\ =\ true\\
+\indent\quad\quad for\ each\ edge(u,v)\ \in\ G.E\\
+\indent\quad \quad\quad flag=false\\ 
+\indent\quad\quad\quad RELAX(u,v,w,flag)\\
+\indent\quad\quad\quad count=count+1\\
+\indent\quad\quad\quad if\ count\ >\ n\\
+\indent\quad\quad\quad\quad return\ false\ \ //存在负环路\\
+\indent\quad return\ true$\\
+\\
+\indent $RELAX(u,v,w,flag)\\
+\indent\quad if\ v.d>u.d+w(u,v)\\
+\indent\quad\quad v.d=u.d+w(u,v)\\
+\indent\quad\quad v.\pi=u\\
+\indent\quad\quad flag=true$\\
+\\
+\indent 24.3-8\\
+\indent 分析：利用斐波那契堆来实现优先队列时，Dijkstra算法的时间复杂度为$O(VlgV+E)$,是因为EXTRACT-MIN的时间复杂度为O(lgV)，但由于该图每条边的权重都是正整数，所以可以直接用线性时间排序算法代替优先队列.算法如下：\\
+\indent $DIJKSTRA(G,,w,s)\\
+\indent\quad INITIALIZE-SINGLE-SOURCE(G,s)\\
+\indent\quad S=\phi\\
+\indent\quad Q=G.V\\
+\indent\quad while\ Q\ne \phi\\
+\indent\quad\quad //对Q中各结点的d值进行计数排序，共W个数\\
+\indent\quad\quad u=Q[0] //取出d值最小的结点\\
+\indent\quad\quad delete(Q[0])\ \ //在Q中删除Q[0]\\
+\indent\quad\quad S=S\cup\{u\}\\
+\indent\quad \quad for\ each\ vertex\ v\in G.Adj[u]\\
+\indent\quad\quad\quad RELAX(u,v,w)$\\
+\indent 算法时间变为O(VW+E)\\
+\\
+\indent 25.2-7\\
+\indent 分析：${\phi^{(k)}_{ij}}$是从结点i到j的一条中间结点都取自集合\{1,2,.....,k\}的最短路径上编号最大的结点。用${\phi^{(k)}_{ij}}$代替${\Phi^{(k)}_{ij}}$来修改Floyed-Warshall算法。${\phi^{(k)}_{ij}}$的递归公式如下：\\
+$${\phi^{(0)}_{ij}}=NIL$$
+$${\phi^{(k)}_{ij}}=\left\{
+\begin{aligned}
+{\phi^{(k-1)}_{ij}},若{d^{(k-1)}_{ij}}\le {d^{(k-1)}_{ik}}+{d^{(k-1)}_{kj}}\\
+k,若{d^{(k-1)}_{ij}}\ge {d^{(k-1)}_{ik}}+{d^{(k-1)}_{kj}}
+\end{aligned}
+\right.$$
+\indent 得到递归公式后修改Floyed-Warshall算法如下:\\
+\indent $Floyed-Warshall(W)\\
+\indent\quad n=W.rows\\
+\indent\quad D^{(0)}=W\\
+\indent\quad for\ k=1\ to\ n\\
+\indent\quad\quad let\ D^{(k)}=({d^{(k)}_{ij}}),\Phi^{(k)}=({\phi^{(k)}_{ij}})\ be\ new\ n\times n\ matrixs\\
+\indent\quad\quad for\ i=1\ to\ n\\
+\indent\quad\quad\quad for\ j=1\ to\ n\\
+\indent\quad\quad\quad\quad if\ {d^{(k-1)}_{ij}}\le {d^{(k-1)}_{ik}}+{d^{(k-1)}_{kj}}\\
+\indent\quad\quad\quad\quad\quad {d_{ij}^{k}}={d_{ij}^{k-1}}\\
+\indent\quad\quad\quad\quad\quad {\phi^{(k)}_{ij}}={\phi^{(k-1)}_{ij}}\\
+\indent\quad\quad\quad\quad else\\
+\indent\quad\quad\quad\quad\quad {d^{(k-1)}_{ij}}={d^{(k-1)}_{ik}}+{d^{(k-1)}_{kj}}\\
+\indent\quad\quad\quad\quad\quad {\phi^{(k)}_{ij}}=k\\
+\indent\quad return\ D^{(n)}\ and\ \Phi^{(n)}$\\
+\indent 修改PRINT-ALL-PAIRS-SHORTEST-PATH算法如下:\\
+\indent $PRINT-ALL-PAIRS-SHORTEST-PATH(\Phi,i,j)\\
+\indent\quad if\ \phi_{ij}=NIL\\
+\indent\quad\quad print\ i\\
+\indent\quad else\\
+\indent\quad\quad PRINT-ALL-PAIRS-SHORTEST-PATH(\Phi,i,\phi_{ij})\\
+\indent\quad\quad PRINT-ALL-PAIRS-SHORTEST-PATH(\Phi,\phi_{ij},j)\\
+\indent\quad\quad print\ j$\\
+\indent $\Phi$类似于链式矩阵乘法的s表格，s是对矩阵元素的划分，$\Phi$是对图中一条最短路径上结点的划分.
+
+
+\end{document}

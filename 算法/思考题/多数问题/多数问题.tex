@@ -1,0 +1,43 @@
+\documentclass[19pt,a4paper]{article}
+\usepackage{xeCJK}
+\usepackage{amsmath}
+\setmainfont{STSong}
+\usepackage{geometry}
+\geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+\setlength{\parindent}{4em}
+\title{思考题1}
+\author{孟妍廷 2015202009}
+\date{2017年9月27日}
+
+\begin{document}
+\maketitle
+\indent 分析:对于多数问题,给定一个大小为n的数组,则n只有为偶数和为基数两种可能,分情况讨论:\\
+\indent 1.偶数:当n为偶数时,若一个数出现的次数要超过$\frac{n}{2}$,该数起码有两个是相邻的,示例如下:\\
+$$121314\ 不满足$$
+$$113141\ \ \ 满足$$
+\indent 2.奇数:当n为奇数时,若一个数出现的次数要超过$\frac{n}{2}$,该数在数组中出现的最离散的情况如下:\\
+$$1213141\ 每两个1之间有一个不为1的数间隔$$
+\indent 根据以上特性,可以设置一个变量count(初值为1),假定当前数组存在一个数出现次数超过$\frac{n}{2}$,\\
+\indent 首先假设数组第一位的数就是这个数,向后遍历,当这个数再次出现时count++,当这个数没有出\\
+\indent 现时count--,当count减到零时,假定数组下一位是这个数.\\
+\indent 若到最后一位前都未找到，则假定数组最后一位就是这个数,进行检查.\\
+\indent 该算法的时间复杂度为O(n).伪码如下:\\
+\indent $int\ majority(int\ num[\ ],int\ begin,int\ end) \ \{ $\\
+\indent $\ \ if(begin\ ==\ end\ \&\&\ check(end)\ ==\ 1)$\\
+\indent $\ \ \ \ return\ end;$\\
+\indent $ \ \ int\ count\ =\ 1; $\\
+\indent $ \ \ int\ i \ =\ begin; $\\
+\indent $ \ \ while(count\ >\ 0\ \&\&\ i\ <\ end)\ \{$\\
+\indent $ \ \ \ \ if(num[++i]\ ==\ num[begin])$\\
+\indent $ \ \ \ \ \ \ count++;$\\
+\indent $ \ \ \ \ else$\\
+\indent $ \ \ \ \ \ \ count--;$\\
+\indent $\ \ \}$\\
+\indent $\ \ if(count\ >\ 0)$\\
+\indent $\ \ \ \ return\ begin;$\\
+\indent $\ \ else\ $\\
+\indent $\ \ \ \ majority(num[n],++begin,end);$\\
+\indent $\}$\\
+\indent 因此，首先以begin为0，end为n开始调用majority函数即可，空间复杂度为O(1).
+
+\end{document}

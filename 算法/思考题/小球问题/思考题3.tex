@@ -1,0 +1,46 @@
+\documentclass[19pt,a4paper]{article}
+\usepackage{xeCJK}
+\usepackage{amsmath}
+\setmainfont{STSong}
+\usepackage{geometry}
+\geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+\setlength{\parindent}{4em}
+\title{思考题3}
+\author{孟妍廷 2015202009}
+\date{2017年10月10日}
+
+\begin{document}
+\maketitle
+这次思考题感觉比较难理解，一开始看了特征序列结果发现不是很适用，尝试着做一下......\\
+\\
+\\
+\indent\ \ 1.解:\\
+\indent 设x为最大的盒子中的小球数，已知有b个小球b个盒子，所以x最大为b，最小为1\\
+$$Pr(x=b)=\frac{b}{b^b}<\frac{1}{(b-1)!}$$
+$$Pr(x=b-1)=\frac{b(b-1)}{b^b}<\frac{2}{(b-2)!}$$
+$$\cdot$$
+$$\cdot$$
+$$\cdot$$
+$$Pr(x=b-i)=\frac{b\cdot\cdot\cdot(b-i)}{b^b}<\frac{i+1}{(b-i-1)!}$$
+\indent 故最大的盒子中的小球数的期望为:\\
+$$E(x)=\sum_{i=1}^{b}(b-i)\times\frac{i+1}{(b-i-1)!}$$
+$$<\sum_{i=1}^{b}\frac{(i+1)^2}{i!}$$
+$$<logb的Taylor展开$$
+$$<logb=O(logb)$$
+\\
+\\
+\indent\ \ 2.解:\\
+\indent 设x为最大的盒子中的小球数，已知有b个小球b/logb个盒子，所以x最大为b，最小为logb\\
+\indent 我认为第一种方法与1.同理。\\
+\indent 第二种方法思路:\\
+\indent 算出x的取值>clogb的概率小于某个值,其中c为一个常数\\
+\indent 由于\\
+$$E(x)=\sum_{i=logb}^{b}i\times Pr(x=i)$$
+$$=\sum_{logb}^{clogb}i\times Pr(x=i)+\sum_{clogb+1}^{b}i\times Pr(x=i)$$
+$$< c_1logb+一个很小的数(c_1为常数)$$
+$$=O(logb)$$
+\\
+\\
+\indent\ \ 3.第三题。。。不太会做。。。
+
+\end{document}

@@ -1,0 +1,80 @@
+\documentclass[19pt,a4pape、、r]{article}
+\usepackage{xeCJK}
+\usepackage{amsmath}
+\setmainfont{STSong}
+\usepackage{geometry}
+\geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+\setlength{\parindent}{4em}
+\usepackage{graphicx}
+\title{算法作业7}
+\author{孟妍廷2015202009}
+\date{2017年11月4日}
+
+\begin{document}
+\maketitle
+15-11.库存规划\\
+\indent 解：由分析可知:利用动态规划 ,假设第一个月到第i-1个月已经满足最小化成本。对于第i个月，我\\
+\indent 们需要考虑的是，若第i个月制造的设备数量超过m,我们应该选择本月支付雇用成本还是将超出的\\
+\indent 部分提前生产支付库存成本。假设每月可生产设备可以小于m台\\
+\indent 对于第i个月: $d_i$表示该月对设备的需求量,$p_i$表示该月生产的设备数量,$f[i,p_i]$表示该月生产$p_i$个设\\
+\indent 备时,第1个月到该月的最小化成本。可得逻辑如下:\\
+$$f[i,p_i]=min(f[i-1,p_{i-1}+k]+h(k)+\left\{
+\begin{aligned}
+0, p_i-k\le m.\\
+c\times(p_i-k-m),p_i-k>m.\\
+\end{aligned}
+\right.)$$
+\indent base case为:\\
+$$p_1=d_1\ \ 第一个月之前库存为0$$
+$$f[1,p_1]=\left\{
+\begin{aligned}
+0,d_1\le m\\
+c\times(d_1-m),d_1>m\\
+\end{aligned}
+\right.$$
+\indent 算法如下\\
+\indent $COUNT(d,m,c,i,p_i)\\
+\indent \quad if\ i==1\\
+\indent \quad\quad cost=(p_i\le m)?0:c\times(p_i-m)\\
+\indent \quad for\ k=0\ to\ p_i\\
+\indent \quad\quad cost=\infty\\
+\indent \quad\quad temp=COUNT(d,n,c,i-1,p_{i-1}+k)+h(k)+(p_i-k\le m)?0:c\times(p_i-k-m)\\
+\indent \quad\quad if\ cost>temp\\
+\indent \quad\quad\quad cost=temp\\
+\indent \quad\quad\quad r=p[i]-k\\
+\indent \quad return\ r,cost\\$
+\\
+\indent $SOLUTION(f,n)\\
+\indent \quad let\ p[1...n],f[1...n,p[1]...p[n]]\ be\ new\ array.\\
+\indent \quad p[1]=d_1\\
+\indent \quad for\ i=2\ to\ n\\
+\indent \quad\quad p[i]=d_i\\
+\indent \quad\quad (r,cost)=COUNT(d,m,c,i,p[i])\\
+\indent \quad\quad p[i]=r\\
+\indent \quad\quad f[1,p[i]]=cost\\$
+\\
+\indent 算法的时间复杂度为$O(D\times D\times n)$\\
+\\
+\\
+\indent 15.5.4\\
+\indent 解:由题意修改算法如下:\\
+\indent $OPTIMAL-BST(p,q,n)\\
+\indent\quad e[1...n+1,0...n],w[1...n+1,0...n],root[1...n,1...n]be\ new\ array\\
+\indent\quad for\ i=1\ to n+1\\
+\indent\quad\quad e[i,i-1]=q_{i-1}\\
+\indent\quad\quad w[i,i-1]=q_{i-1}\\
+\indent\quad for\ l=1\ to\ n\\
+\indent\quad\quad for\ i=1\ to\ n-l+1\\
+\indent\quad\quad\quad j=i+l-1\\
+\indent\quad\quad\quad e[i,j]=\infty\\
+\indent\quad\quad\quad w[i,j]=w[i,j-1]+p_j+q_j\\
+\indent\quad\quad\quad if\ i==j\\
+\indent\quad\quad\quad\quad root[i,j]=i\\
+\indent\quad\quad\quad else\\
+\indent\quad\quad\quad\quad //判断(i,j-1)和(i+1,j)的根节点谁的级别更高\\
+\indent\quad\quad\quad\quad t1=e[i,root[i,j-1]-1]+e[root[i,j-1]+1,j-1]+w[i,j-1]\\
+\indent\quad\quad\quad\quad t2=e[i+1,root[i+1,j]-1]+e[root[i+1,j]+1,j]+w[i+1,j]\\ 
+\indent\quad\quad\quad\quad root[i,j]=(t1<t2)?root[i,j-1]:root[i+1,j]\\
+\indent\quad\quad\quad\quad e[i,j]=e[i,root[i,j]-1]+e[root[i,j]+1,j]+w[i,j]\\
+\indent\quad return\ e\ and\ root$\\
+\end{document}

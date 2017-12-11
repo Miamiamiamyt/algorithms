@@ -1,0 +1,72 @@
+\documentclass[19pt]{article}
+\usepackage{xeCJK}
+\usepackage{amsmath}
+\setmainfont{STSong}
+ \usepackage{geometry} 
+\geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+\usepackage{indentfirst}
+\setlength{\parindent}{4em}
+\title{算法作业1}
+\author{孟妍廷 2015202009}
+\date{}
+
+\begin{document}
+\maketitle
+
+
+3.1.7\\
+\indent 证明:\quad 假设$f_1(x)=o(g(n))$,\ $f_2(x)=\omega(g(n))$,则由定义可得：\\
+\indent 对任意正常量$c>0$,\ 存在常量$n_1>0$,\ 使得对所有$n\ge n_0$, 有$0 \le f_1(n)<cg(n)$；同理，对于同一常量c,\ 存在常量$n_1>0$,\ 使得对所有$n\ge n_1$,\ 有$f_2(n)>cg(n)$. \\
+\indent 取$N=max(n_0,n_1)$,\ 则对所有$n\ge N$,\ 有$f_1(n)<cg(n)$且$f_2(n)>cg(n)$,\ 即$o(n)<cg(n)$且 $\omega(n)>cg(n)$. \\
+\indent 故$o(n)\cap \omega(n)=\emptyset$得证。\\
+
+3-3\\
+\indent a. 解：按照渐进增长率和界限函数可得自上而下排序为(同一行的为等价类)：\\
+\indent $2^{2^{n+1}}$ \quad $2^{2^n}$\\
+\indent $(n+1)!$\\
+\indent $n!$\\
+\indent $e^n$\\
+\indent $n\cdot2^n$\\
+\indent $2^n$\\
+\indent $(\frac{3}{2})^n$\\
+\indent $n^{\lg \lg n}$\quad $(\lg n)^{\lg n}$\\
+\indent $(\lg n)!$\\
+\indent $n^3$\\
+\indent $n^2$\quad$4^{\lg n}$\\
+\indent $n\lg n$\quad $\lg (n!)$ 由夹逼定理$n^n$与$n!$同阶\\
+\indent $n$\quad$2^{\lg n}$\\
+\indent $(\sqrt{2}^{\lg n})$\\
+\indent $2^{\sqrt{2\lg n}}$\\
+\indent $\lg ^2n$\\
+\indent $\ln n$\\
+\indent $\sqrt {\lg n}$\\
+\indent $\ln \ln n$\\
+\indent $2^{lg^*n}$\\
+\indent $lg^*n$\\
+\indent $\lg ^*(\lg n)$\\
+\indent $\lg (\lg ^*n)$\\
+\indent $n^{\frac{1}{\lg n}}$\quad$1$\\
+\\
+\indent b.解：\\
+\indent 依题意可得：当该非负函数$f(n)$的极限不存在时，不存在$g(n)$，使$f(n)$是$O(g(n))$或$\Omega(g(n))$的.\\
+\indent 故f(n)的一个例子是：\\
+\indent $$f(x)=\begin{cases}0,&\text{x=2k+1}\\1,&\text{x=2k}\end{cases}$$\\
+\indent 其中, $k\in Z$.\\
+\\
+\indent3-4\\
+\indent a.错误。反例:\ $n=O(n^2)$但是$n^2\ne O(n)$\\
+\indent b.错误。反例:\ $n^2+n=\Theta(n^2)\ne \Theta(n)$\\
+\indent c.正确。 证明:\ 由$f(n)=O(g(n))$表明对任意正常数c,存在常量$n_0$，对所有$n\ge n_0$都有$f(n)\le cg(n)$，\\
+所以也有$\lg f(n)\le\lg (cg(n))$，故$\lg (f(n))=O(\lg (g(n))) $成立.\\
+\indent d.正确。 证明:\ 由$f(n)=O(g(n))$表明对任意正常数c,存在常量$n_0$，对所有$n\ge n_0$都有$f(n)\le cg(n)$，\\
+由于f(n)和g(n)是正函数，所以也有$2^{f(n)}\le2^{cg(n)}$，故$2^{f(n)}=O(2^{g(n)}) $成立.\\
+\indent e.错误。 反例:\ $f(n)=\frac{1}{n}$,则$f(n)^2=\frac{1}{n^2}$,故$\frac{1}{n}\ne O(\frac{1}{n^2})$\\
+\indent f.正确。 证明:\ 由$f(n)=O(g(n))$可得$${ \lim_{n \to +\infty} \frac{f(n)}{g(n)} \le c_1}$$因此
+$${ \lim_{n \to +\infty} \frac{g(n)}{f(n)} \ge c_2}$$
+\indent 其中$c_1$,$c_2$为常数,故$g(n)=\Omega(f(n))$。\\
+\indent g.错误。 反例:\ $n^n\ne \frac{n}{2}^{\frac{n}{2}}$\\
+\indent h.错误。 反例:\ $n+n^2\ne \Theta(n)$
+
+
+
+\end{document}

@@ -1,0 +1,55 @@
+\documentclass[19pt,a4paper]{article}
+\usepackage{xeCJK}
+\usepackage{amsmath}
+\setmainfont{STSong}
+ \usepackage{geometry} 
+\geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+\setlength{\parindent}{4em}
+\title{算法作业2}
+\author{孟妍廷 2015202009}
+\date{2017年9月24日}
+\begin{document}
+\maketitle
+
+1.给出递归式主方法的推导过程\\
+\indent \quad 解：假设已知$a\ge 1,b>1$为常数,$f(n)$是一个函数,$T(n)$由以下递归式定义:$$T(n)=aT(\frac{n}{b})+f(n).$$
+\indent 则利用迭代法可得:\\
+$$T(n)=aT(\frac{n}{b})+f(n)$$
+$$=a^2T(\frac{n}{b^2})+af(\frac{n}{b})+f(n)$$
+$$=a^3T(\frac{n}{b^3})+a^2f(\frac{n}{b^2})+af(\frac{n}{b})+f(n)$$
+$$=\cdot\cdot\cdot$$
+\indent 迭代$l$次时：
+$$=f(n)+af(\frac{n}{b})+\cdot\cdot\cdot+a^{l-1}f(\frac{n}{b^{l-1}})+a^lT(\frac{n}{b^l})$$
+$$=\sum_{i=0}^{l-1}a^if(\frac{n}{b^i})+a^lT(\frac{n}{b^l})\ \ \ \ \ \ \ *$$
+\indent 其中,$\frac{n}{b^l}\le 1$,即$l\ge log_bn$,故:
+$$(*)\le \sum_{i=0}^{l-1}a^if(\frac{n}{b^i})+a^{ log_bn}T(1)$$
+$$\le \sum_{i=0}^{l-1}a^if(\frac{n}{b^i})+c\cdot a^{ log_bn}$$
+$$= \sum_{i=0}^{l-1}a^if(\frac{n}{b^i})+c\cdot  n^{log_ba}\ \ \ \ \ \ \ **$$
+\indent 故对于任意$\varepsilon > 0$:\\
+\indent (1)若有$f(n)=O(n^{log_ba-\varepsilon})$,则
+$$(**)=O(\sum_{i=0}^{log_bn-1}a^i{(\frac{n}{b^i})}^{log_ba-\varepsilon})+c\cdot  n^{log_ba}$$
+$$=O(\sum_{i=0}^{log_bn-1}\frac{a^i}{b^{i(log_ba-\varepsilon)}}n^{log_ba-\varepsilon})+c\cdot n^{log_ba}$$
+$$=O(\sum_{i=0}^{log_bn-1}b^{i\varepsilon}n^{log_ba-\varepsilon})+c\cdot n^{log_ba}$$
+$$=O(\frac{n^\varepsilon-1}{b^\varepsilon-1}n^{log_ba-\varepsilon})+c\cdot n^{log_ba}$$
+$$=O(n^{log_ba})+c\cdot n^{log_ba}$$
+\indent 故$T(n)=\Theta(n^{log_ba})$.\\
+
+\indent (2)若有$f(n)=\Theta(n^{log_ba})$,则
+$$(**)=\Theta(\sum_{i=0}^{log_bn-1}a^i{(\frac{n}{b^i})}^{log_ba})+c\cdot  n^{log_ba}$$
+$$=\Theta(\sum_{i=0}^{log_bn-1}\frac{a^i}{b^{ilog_ba}}n^{log_ba})+c\cdot n^{log_ba}$$
+$$=\Theta(\sum_{i=0}^{log_bn-1}\frac{a^i}{a^i}n^{log_ba})+c\cdot n^{log_ba}$$
+$$=\Theta(log_bn\cdot n^{log_ba})+c\cdot n^{log_ba}$$
+$$=\Theta(\frac{1}{logb}\cdot n^{log_ba}logn)+c\cdot n^{log_ba}$$
+\indent 由于$\frac{1}{logb}$为常数,且$n^{log_ba}logn$的渐进增长率大于$ n^{log_ba}$\\
+\indent 故$T(n)=\Theta(n^{log_ba}logn)$.\\
+
+\indent (3)若有$f(n)=\Omega(n^{log_ba+\varepsilon})$,且对某常数$c_1>1$和足够大的n,有$af(\frac{n}{b})\le cf(n)$,则
+$$(**)\le \sum_{i=0}^{log_bn-1}c_1^if(n)+c\cdot  n^{log_ba}$$
+$$=f(n)\cdot \frac{1-c_1^{log_bn}}{1-c_1}+c\cdot  n^{log_ba}$$
+\indent 由于$\frac{1-c_1^{log_bn}}{1-c_1}$为常数,且$f(n)$的渐进增长率大于$ n^{log_ba}$\\
+\indent 故$T(n)=\Theta(f(n))$.\\
+\\
+\indent 主定理推理完毕.
+
+
+\end{document}

@@ -1,0 +1,51 @@
+\documentclass[19pt,a4paper]{article}
+\usepackage{xeCJK}
+\usepackage{amsmath}
+\setmainfont{STSong}
+\usepackage{geometry}
+\geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+\setlength{\parindent}{4em}
+\usepackage{graphicx}
+\title{思考题7}
+\author{孟妍廷2015202009}
+\date{2017年11月7日}
+
+\begin{document}
+\maketitle
+\indent 依题意可得，最优直方图问题符合最优子结构性质，适合用动态规划解决问题.\\
+\indent 设$SSE^*[i,k]$表示将排序后的数组中第1个到第i个元素放入k个桶中的最小二次求和误差.\\
+\indent AVG[i,j]表示排序后的第i到第j个元素在一个桶中的均值.\\
+\indent 算法如下\\
+\indent 首先对原始数组a[1...n]由小到大排序，得到order[1...n]记录下标.\\
+\indent $COUNT(order,SSE*,AVG,PP,i,k)\\
+\indent \quad if\ k==1\\
+\indent \quad\quad cost=SSE*[j,1]\\
+\indent \quad\quad for\ j=1\ to\ i-1\\
+\indent \quad\quad\quad cost=\infty\\
+\indent \quad\quad\quad temp=COUNT(order,SSE*,AVG,PP,j,k-1)+PP[i]-PP[j+1]-(i-j)\times AVG[j,i]^2 \\
+\indent \quad\quad\quad (cost>temp)?cost=temp:cost=cost\\
+\indent \quad return\ cost\\$
+\\
+\indent $SOLUTION(order,n)\\
+\indent \quad let\ AVG[1...n,1...n],SSE^*[1...n,1...B],P[0...n],PP[0...n]\ be\ new\ array.\\
+\indent \quad P[0]=0,PP[0]=0\\
+\indent \quad for\ i=1\ to\ n\\
+\indent \quad\quad for\ j=1\ to\ i\\
+\indent \quad\quad\quad P[i]+=a[order[i]]\\
+\indent \quad\quad\quad PP[i]+=a[order[i]]^2\\
+\indent \quad for\ i=1\ to\ n\\
+\indent \quad\quad for\ j=i\ to\ n\\
+\indent \quad\quad\quad AVG[i,j]=\frac{P[j]-P[i-1]}{j-i+1}//计算出所有平均数\\
+\indent \quad\quad\quad SSE^*[i,j]=\infty\\
+\indent \quad for\ i=1\ to\ n\\
+\indent \quad\quad SSE^*[i,1]=PP[i]-i\times AVG[1,i]^2//所有数放入一个桶中的情况的误差可以直接算\\
+\indent \quad for\ k=1\ to\ B\\
+\indent\quad\quad res=\infty\\
+\indent \quad\quad if\ res>COUNT(order,SSE*,AVG,PP,n,k)\\
+\indent \quad\quad \quad res=COUNT(order,SSE*,AVG,PP,n,k)\\
+\indent \quad\quad \quad key=k\\
+\indent \quad return\ key\ res\\$
+\\
+\indent 时间复杂度为$O(B\times B\times n)$
+
+\end{document}

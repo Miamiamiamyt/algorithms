@@ -1,0 +1,87 @@
+\documentclass[19pt,a4paper]{article}
+\usepackage{xeCJK}
+\usepackage{amsmath}
+\setmainfont{STSong}
+\usepackage{geometry}
+\geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+\setlength{\parindent}{4em}
+\title{思考题6——编辑距离}
+\author{孟妍廷\quad 2015202009}
+\date{2017年11月2日}
+
+\begin{document}
+\maketitle
+解:分析:利用动态规划,假设当前操作之前的所有操作都满足编辑距离最小,分析当前操作:\\
+\indent 用f(i,j)表示当前最小编辑距离,对于x[1...m],y[1...n]根据题意\\
+\indent (1)若当前操作为copy,则可知此时x[i]=y[j],则f(i,j)=f(i-1,j-1)+copy\\
+\indent (2)若当前操作为replace,则可知$x[i]\ne y[j]$,则f(i,j)=f(i-1,j-1)+replace\\
+\indent (3)若当前操作为delete,则f(i,j)=f(i-1,j)+delete\\
+\indent (4)若当前操作为insert,则f(i,j)=f(i,j-1)+insert\\
+\indent (5)若当前操作为twiddle,则可知y[j]=x[i-1],y[j-1]=x[i],则f(i,j)=f(i-2,j-2)+teiddle\\
+\indent (6)若当前操作为kill,则f(i,j)=f(i-1,j-1)+kill+(n-i+1)$times$insert//回到前一状态,不知是否有误\\
+\indent (7)特殊情况为:x,y中有一个为空串,还有根据例子可以看到的回溯问题\\
+\indent 算法如下:\\
+\indent $solution(x,y,op)//考虑到回溯问题,需要记录操作是插入还是复制\\
+\indent \quad for\ i=0\ to m\\
+\indent \quad\quad f[i,0]=i\times delete\\
+\indent \quad\quad p[i,0]=delete\\
+\indent \quad for\ j=0\ to\ n\\
+\indent \quad\quad f[0,j]=j\times insert\\
+\indent \quad\quad p[0,j]=insert\\
+\indent \quad for\ i=1\ to\ m\\
+\indent \quad\quad for\ j=1\ to\ n\\
+\indent \quad\quad\quad f[i,j]=\infty\\
+\indent \quad \quad\quad if\ x[i]==y[j]\ and\ op==copy\\
+\indent \quad\quad\quad\quad f[i,j]=f[i-1,j-1]+copy\\
+\indent \quad\quad\quad\quad p[i,j]=copy\\
+\indent \quad\quad\quad  if\  x[i]\ne y[j]\ and\ f[i-1,j-1]+replace<f[i,j]\\
+\indent  \quad\quad\quad\quad f[i,j]=f[i-1,j-1]+replace\\
+\indent  \quad\quad\quad\quad p[i,j]=replace\\
+\indent  \quad\quad\quad if\ f[i-1,j]+delete<f[i,j]\\
+\indent  \quad\quad\quad\quad f[i,j] =f[i-1,j]+delete\\
+\indent  \quad\quad\quad\quad p[i,j] = delete\\
+\indent  \quad\quad\quad if\ f[i,j-1]+insert<f[i,j]\ or\ op==insert//存在两种方式,导致不同结果\\
+\indent  \quad\quad\quad\quad f[i,j] =f[i,j-1]+insert\\
+\indent  \quad\quad\quad\quad p[i,j] = insert\\
+\indent  \quad\quad\quad if\ i\ge2\ and\ j\ge2\ and\ x[i-1]=y[j]\ and\ x[i]=y[j-1]\ and\ f[i-2,j-2]+twiddle<f[i,j]\\
+\indent  \quad\quad\quad\quad f[i,j] =f[i-2,j-2]+twiddle\\
+\indent  \quad\quad\quad\quad p[i,j] = twiddle\\
+\indent \quad for\ i=0\ to\ m-1\\
+\indent \quad\quad if\ f[i,n]+kill+(n-i)\times insert<f[m,n]\\
+\indent \quad\quad\quad f[m,n]=f[i,n]+kill+(n-i)\times insert\\
+\indent \quad\quad\quad p[i,n]=kill\\
+\indent \quad\quad\quad rem=i\\
+\indent \quad return\ f\ op$\\
+\\
+\\
+\indent $print(p,i,j,rem)\\
+\indent \quad if\ i=0\ and\ j=0\\
+\indent \quad\quad return\\
+\indent \quad if\ p[i,j]\ =\ copy\ or\ p[i,j]\ =\ replace\\
+\indent \quad\quad i_1←i-1\\
+\indent \quad\quad j_!←j-1\\
+\indent \quad else if p[i,j]=delete\\
+\indent \quad\quad i_1=i-1\\
+\indent \quad\quad j_1=j\\
+\indent \quad else\ if\ p[i,j]\ =\ insert\\
+\indent \quad\quad i_1=i\\
+\indent \quad\quad j_1=j-1\\
+\indent \quad else\ if\ p[i,j]=twiddle\\
+\indent \quad\quad i_1=i-2\\
+\indent \quad\quad j_1=j-2\\
+\indent \quad else\\
+\indent \quad\quad p[i,j]=kill\\
+\indent \quad\quad i_1=rem\\
+\indent \quad\quad j_1=j\\
+\indent \quad print(p,i_1,j_1)\\
+\indent \quad printf\ p[i,j]$\\
+\\
+\indent b.最右对齐问题可改变为:\\
+\indent x[i]=y[i]且都不是空格相当于复制操作的代价为+1\\
+\indent $x[i]\ne y[j]$相当于替换操作的代价为-1\\
+\indent x[i]或y[j]为空格相当于insert操作的代价为-2\\
+\indent 在算法中删去旋转和删除操作即可。
+
+
+
+\end{document}

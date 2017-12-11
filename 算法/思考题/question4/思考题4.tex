@@ -1,0 +1,44 @@
+\documentclass[19pt,a4paper]{article}
+\usepackage{xeCJK}
+\usepackage{amsmath}
+\setmainfont{STSong}
+\usepackage{geometry}
+\geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+\setlength{\parindent}{4em}
+\title{思考题4——quicksort}
+\author{孟妍廷\quad 2015202009}
+\date{2017年10月17日}
+
+\begin{document}
+\maketitle
+证明:\\
+\indent 由于partition只要成功$O(lgn)$次即可达到目的\\
+\indent 通过阅读文献,证明方法如下:\\
+\indent 首先假设指示器变量$X_i$
+$$X_i=\begin{cases}
+1&\text{第i个元素参与了超过32lnn轮递归},\\
+0&\text{未超过}.
+\end{cases}$$
+\indent 则对于快排中进行比较的次数T,有
+$$Pr[T>32lnn]<\sum_{i=1}^{n}Pr[X_i]\ \ \ \ \ \ \ \ (*)$$
+\indent 接下来求解$Pr[X_i]$:\\
+\indent 由教材可知:对于partition,只要是按常数比例对数组进行划分,递归都在$O(lgn)$处终止\\
+\indent 故认为若partition中一轮递归按常数比例划分数组,则这轮递归成功.对于数组中任一元素,假设
+$$Y_j=\begin{cases}
+1&\text{第j轮递归成功},\\
+0&\text{不成功}.
+\end{cases}$$
+\indent 其中$Pr[Y_j=0]=Pr[Y_j=1]=\frac{1}{2}$,且$Y_j$相互独立\\
+\indent 当递归成功时,数组中每个元素参与的次数$\rho=log_cn<4lnn$\\
+\indent 其中c为小于2的常数\\
+\indent 由Chernoff不等式可知，递归成功的次数$S\le\frac{M}{4}$的概率P不超过$e^\frac{-M}{8}$\\
+\indent 取$M=32lnn>8\rho$,故$P<e^{-\rho}\le \frac{1}{n^2}$\\
+\indent 即递归成功的次数$S\le8\rho$的概率小于$\frac{1}{n^2}$\\
+\indent  由于当递归成功的次数$S>8\rho>lgn$时,任一元素参与递归的次数$\rho<4lnn<32lnn$\\
+\indent  所以$Pr[X_i]=Pr[S\le8\rho]\le\frac{1}{n^2}$\\
+\indent 故$(*)<n\times \frac{1}{n^2}=\frac{1}{n}$\\
+\indent 因此$Pr[T<nlgn]=1-O(\frac{1}{n})$\\
+\indent 故以$1-O(\frac{1}{n})$的概率,快速排序的时间复杂度为$O(nlgn)$
+
+
+\end{document}

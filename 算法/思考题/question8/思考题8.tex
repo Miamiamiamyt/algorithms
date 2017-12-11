@@ -1,0 +1,32 @@
+\documentclass[19pt,a4paper]{article}
+\usepackage{xeCJK}
+\usepackage{amsmath}
+\setmainfont{STSong}
+\usepackage{geometry}
+\geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+\setlength{\parindent}{4em}
+\usepackage{graphicx}
+\usepackage{float}
+\title{思考题8}
+\author{孟妍廷2015202009}
+\date{2017年11月28日}
+
+\begin{document}
+\maketitle
+利用找钱问题的拟阵来刻画面值\\
+\indent 第一步分析:拟阵中要求族里包含空集$\phi$，但是找钱问题是必须要找齐找零数目的，产生了矛盾，因此应该用权重函数w(x)来提高找零不满足目标的子集的权重来起到排除的目的,其次要把最小权重转化为最大权重问题\\
+\indent 第二步进行进一步转化，将面值为a的零钱变成a个面值为1，权重为$\frac{1}{a}$的零钱。可以定义这样一个M=(S,L)：\\
+\indent 1.S是所有零钱的集合\\
+\indent 2.n为需要找零的数目\\
+\indent 3.$L=\{x:x\subseteq S,|x|\le n\}$\\
+\indent 4.$w(x)=\left\{
+\begin{aligned}
+-\infty,|x|<n\\
+w_{max}-\sum w(x_i),|x|=n\ \ \ //w_max是一个大于所有权重之和的数
+\end{aligned}
+\right.$\\
+\indent 首先M满足遗传性：$\forall x\in S,若|y|\le|x|\le|n|,有y\in S$.\ \ \ M满足交换性:$\forall |A|\in L,|B|\in L,|A|<|B|,任意选取x\in B-A,令C=A\cup x,则有|C|\le n,故C\in L$\\
+\indent 利用加权拟阵的贪心算法求最优子集即可得到面值的刻画\\
+p.s.不知道这个思路对不对。。。。还请师兄讲解
+
+\end{document}

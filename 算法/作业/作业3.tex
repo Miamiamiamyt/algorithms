@@ -1,0 +1,75 @@
+\documentclass[19pt,a4paper]{article}
+\usepackage{xeCJK}
+\usepackage{amsmath}
+\setmainfont{STSong}
+\usepackage{geometry}
+\geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+\setlength{\parindent}{4em}
+\title{算法作业3}
+\author{孟妍廷 2015202009}
+\date{2017年10月7日}
+
+\begin{document}
+\maketitle
+
+5.2-5\\
+\indent 解:\\
+\indent \ \ 首先，假设$X_{ij}$对应(i,j)对为A的逆序对该事件的指示器随机变量:
+$$X_{ij}=I\{(i,j)为逆序对\}=
+\begin{cases}
+1,& \text{i<j,A[i]>A[j]}\\
+0,& \text{i<j,A[i]<A[j]}
+\end{cases}$$
+\indent 由于数列A中的n个数均不相同,所以对于数对(i,j)(i<j),只有$A[i]<A[j],A[i]>A[j]$两种可能,\\
+\indent 且A的元素是1-n的均匀随机排列,故Pr{(i,j)}=$\frac{1}{2}$.\\
+\indent 根据定理,E[$X_{ij}$]=Pr\{(i,j)为A的逆序对\}=$\frac{1}{2}$\\
+\indent 设X为一个随机变量，其值等于数列A中逆序对的个数，故X可表示为:\\
+\begin{equation*}
+X = \sum_{i=1}^{n-1}\sum_{j=i+1}^nX_{ij}
+\end{equation*}
+\indent 则逆序对的数目期望为
+$$E[X] = E[ \sum_{i=1}^{n-1}\sum_{j=i+1}^nX_{ij}] $$
+$$= \sum_{i=1}^{n-1}\sum_{j=i+1}^nE[X_{ij}] $$
+$$=\sum_{i=1}^{n-1}\sum_{j=i+1}^n\frac{1}{2}$$
+$$=\frac{(n-1+1)\times(n-1)}{2}\cdot\frac{1}{2}$$
+$$=\frac{n(n-1)}{4}$$
+\\
+\\
+\indent 5.3-5\\
+\indent 证明:\\
+\indent\ \ 从1-$n^3$中随机取n个数，允许重复的情况下总共有${n^3}^n$种可能\\
+\indent 不允许重复的情况下随机取n个数，总共有
+$$P=(n^3)\times(n^3-1)\times\cdot\cdot\cdot\times(n^3-n+1)$$
+\indent 种可能.\\
+\indent 故所有元素都唯一的概率为:\\
+$$Pr=\frac{P}{{n^3}^n}$$
+$$=\frac{(n^3)\times(n^3-1)\times\cdot\cdot\cdot\times(n^3-n+1)}{{n^3}^n}$$
+\indent 接下来对概率进行放缩:
+$$Pr>\frac{{(n^3-n)}^n}{{n^3}^n}$$
+$$={\frac{(n^3-n)}{n^3}}^n$$
+$$={(1-\frac{1}{n^2})}^n\ \ \ \ \ \ (*)$$
+\indent 对多项式(*)进行展开:
+$$(*)=1+n\times(-\frac{1}{n^2})+\cdot\cdot\cdot>1-\frac{1}{n}$$
+\indent 得证.
+\\
+\\
+\indent 5.4-2\\
+\indent 解:\\
+\indent\ \ 假设$n_i$为投球次数,则依题意可得
+$$P(n_i=1)=0$$
+$$P(n_i=2)=1\times\frac{1}{b}=\frac{1}{b}$$
+$$P(n_i=3)=1\times\frac{b-1}{b}\times\frac{2}{b}=\frac{2(b-1)}{b^2}$$
+$$\cdot$$
+$$\cdot$$
+$$\cdot$$
+$$P(n_i=k)=1\times\frac{b-1}{b}\cdot\cdot\cdot\times\frac{b-k+2}{b}\times\frac{k-1}{b}=\frac{(k-1)b(b-1)\cdot\cdot\cdot(b-k+2)}{b^{k}}$$
+$$\cdot$$
+$$\cdot$$
+$$\cdot$$
+\\
+\indent 故投球次数期望为:
+$$E\sum_{i=1}^{i=b+1}i\times\frac{(i-1)b(b-1)\cdot\cdot\cdot(b-i+2)}{b^{i}}$$
+
+
+
+\end{document}
